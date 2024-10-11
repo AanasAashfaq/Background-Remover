@@ -35,7 +35,7 @@ def upload_image():
         try:
             # Process the image to remove background
             res = process_image(file)
-            return jsonify({"message": f"File saved and processed to {res}"}), 200
+            return jsonify({"processedImage": res["processed_image"]}), 200
         except Exception as e:
             return jsonify({"error": f"Processing failed: {str(e)}"}), 500
     else:

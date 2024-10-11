@@ -3,6 +3,7 @@ from PIL import Image
 import requests
 from io import BytesIO
 import torch
+import base64
 from IPython.display import display
 
 #Check if GPU is available and set the device accordingly
@@ -40,4 +41,11 @@ def process_image(file):
     # Here you can  perform any processing on the image
     pillow_image.show()  # This will display the image
     # You might want to save or modify the image
-    return {"message": "Image processed successfully!"}  # Return a response
+    img_io = BytesIO()
+    pillow_image.save(img_io, format='PNG')  # Save the processed image in-memory
+    img_io.seek(0)
+
+    # Encode the image to base64
+    encoded_image = base64.b64encode(img_io.getvalue()).decode('utf-8')
+
+    return {"processed_image": encoded_image} 
