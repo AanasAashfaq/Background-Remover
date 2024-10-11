@@ -31,9 +31,10 @@ def upload_image():
         file_path = os.path.join(UPLOAD_FOLDER, file.filename)
         file.save(file_path)  # Save image to test-images folder
         
+        
         try:
             # Process the image to remove background
-            res = process_image(file_path)
+            res = process_image(file)
             return jsonify({"message": f"File saved and processed to {res}"}), 200
         except Exception as e:
             return jsonify({"error": f"Processing failed: {str(e)}"}), 500

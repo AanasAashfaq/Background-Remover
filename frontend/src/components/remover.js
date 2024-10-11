@@ -28,13 +28,35 @@ function Remover()
 
   const handleRemoveBackground = async () => {
     // Placeholder for actual background removal API call
-    console.log("Removing background...")
+    if (!selectedImage) return; // Make sure an image is selected
+
     setLoading(true);
-    // Simulating API call with a timeout
-    setTimeout(() => {
-      setProcessedImage(selectedImage)
-      setLoading(false)
-    }, 2000)
+    const formData = new FormData();
+    // Assuming you have the selected file in the state
+    const fileInput = document.getElementById('imageUpload');
+    const file = fileInput.files[0];
+
+    formData.append('image', file); // Append the image file to form data
+
+    try {
+      const res = await fetch('http://127.0.0.1:5000/upload-image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error('Image upload failed');
+      }
+
+      // Assuming the API returns the processed image URL
+      const data = await res.json(); // Adjust based on your API response
+      setProcessedImage(data.processedImageUrl); // Adjust based on your response structure
+
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleCancel = () => {
