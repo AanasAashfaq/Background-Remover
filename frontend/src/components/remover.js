@@ -50,7 +50,7 @@ function Remover()
 
       // Assuming the API returns the processed image URL
       const data = await res.json(); // Adjust based on your API response
-      setProcessedImage(data.processedImageUrl); // Adjust based on your response structure
+      setProcessedImage(`data:image/png;base64,${data.processedImage}`); // Adjust based on your response structure
 
     } catch (error) {
       console.error("Error uploading image:", error);
